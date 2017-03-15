@@ -71,7 +71,8 @@ onselectstart = "return false";
 
 var loadButtons = function () {
     createButtons();
-    if (localStorage.getItem("buttons") != null) {
+    var params=getURLParameter(urlParamName);
+    if (localStorage.getItem("buttons") != null && !params) {
         var temp = (JSON.parse(localStorage.getItem("buttons")));
         for (i = 0; i < temp.length; i++) {
             if (temp[i].completed) {
@@ -80,6 +81,9 @@ var loadButtons = function () {
                 addSelectedMap(temp[i])
             }
         }
+    }
+    if(params){
+        decodeMapsFromUri(params);
     }
 };
 
@@ -331,7 +335,7 @@ var draw = function () {
 
         document.getElementById("systemText").innerHTML = "Atlas Bonus: " + atlasBonus + "/" + buttons.length;
     }
-}
+};
 
 class Button {
     constructor(name, tier, x, y) {
