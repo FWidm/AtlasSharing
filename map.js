@@ -310,7 +310,7 @@ var draw = function () {
             width = canvas.width * zoomValue;
             height = canvas.height * zoomValue;
             endX = width + originX;
-            endY = height + originY
+            endY = height + originY;
 
             if (isKeyPressed) {
                 checkButtons();
@@ -365,6 +365,7 @@ class Button {
 }
 
 function createButtons() {
+    //todo: rewrite - load from json file - map obj should have ... id, name, tier, completed, hasShaperOrb, posX, posY, img
     // T1
     buttons.push(new Button("Crystal Ore Map", 1, 0.18193717277486768, 0.14764397905759163));
     buttons.push(new Button("Jungle Valley Map", 1, 0.23082460732984172, 0.774869109947644));

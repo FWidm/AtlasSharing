@@ -13,6 +13,10 @@ function checkExistence(arrayToCheck, name) {
     return found;
 }
 
+/**
+ * Adds the map to the selectedMaps array.
+ * @param mapButton
+ */
 function addSelectedMap(mapButton) {
     var jsonMap = {};
     jsonMap.name = mapButton.name;
@@ -21,16 +25,26 @@ function addSelectedMap(mapButton) {
     selectedMaps.sort(function (a, b) {
         return (a.tier) - (b.tier);
     });
+    encodeMapsToUrl();
     console.log(selectedMaps);
 }
 
+/**
+ * Removes map from the selectedMaps array
+ * @param mapButton
+ */
 function removeFromSelectedMap(mapButton) {
     selectedMaps = selectedMaps.filter(function (map) {
         return map.name !== mapButton.name;
     });
+    encodeMapsToUrl();
     console.log(selectedMaps);
 }
 
+/**
+ * Encode maps to URI in binary form (string)
+ * @returns {string} binary representation
+ */
 function encodeMapsToUrl() {
     var encoded = "";
     for (id in buttons) {
@@ -41,10 +55,13 @@ function encodeMapsToUrl() {
             encoded += 0;
         }
     }
-    var octal = parseInt(encoded, 2).toString(8);
-    return encoded;
+    changeUrlParam(urlParamName, encoded);
 }
 
+/**
+ * Decodes the selected maps from the url parameter.
+ * @param encoded
+ */
 function decodeMapsFromUri(encoded) {
     console.log(encoded.length);
     if (encoded.length == noOfMaps) {
@@ -57,23 +74,23 @@ function decodeMapsFromUri(encoded) {
         }
     }
 }
+
+/**
+ * Returns the string representation of the js object of a map.
+ * @param mapObj
+ * @returns {string}
+ */
 function mapObjToString(mapObj) {
     return mapObj.tier + " | " + mapObj.name;
 }
 
-function compare(a, b) {
-    console.log("compare a=" + mapObjToString(a) + " with b=" + mapObjToString(b));
-    if (a.tier < b.tier)
-        return -1;
-    if (a.trier > b.tier)
-        return 1;
-    return 0;
-}
-
+/**
+ * Print the current active maps in json format
+ */
 function displayJson() {
-    changeUrlParam(urlParamName, encodeMapsToUrl());
     console.log(JSON.stringify(selectedMaps));
 }
+
 
 function getURLParameter(name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [, ""])[1].replace(/\+/g, '%20')) || null;
